@@ -1,4 +1,4 @@
-package shop.controller;
+package com.sample.online.controller;
 
 import shop.domain.Customer;
 

@@ -1,5 +1,6 @@
-package shop.controller;
+package com.sample.online.controller;
 
+import org.springframework.stereotype.Component;
 import shop.domain.Customer;
 
 import javax.ws.rs.WebApplicationException;
@@ -12,6 +13,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Component
 public class CustomerResourceService implements CustomerResource {
 
     private static Map<Integer, Customer> customerDB = new ConcurrentHashMap<>();
