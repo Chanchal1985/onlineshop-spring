@@ -1,4 +1,4 @@
-package shop.domain;
+package com.sample.online.domain;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;

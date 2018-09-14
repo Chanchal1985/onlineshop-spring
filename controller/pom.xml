@@ -34,6 +34,11 @@
             <groupId>com.sample.online.domain</groupId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <artifactId>dao</artifactId>
+            <groupId>com.sample.online.dao</groupId>
+            <version>${project.version}</version>
+        </dependency>
 
     </dependencies>
 

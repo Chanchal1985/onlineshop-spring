@@ -1,6 +1,6 @@
 package com.sample.online.controller;
 
-import shop.domain.Customer;
+import com.sample.online.domain.Customer;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;

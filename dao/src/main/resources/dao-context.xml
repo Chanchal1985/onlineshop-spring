@@ -9,8 +9,7 @@
     http://www.springframework.org/schema/tx
     http://www.springframework.org/schema/tx/spring-tx.xsd"
        default-autowire="byName">
-    <context:component-scan base-package="shop.*"/>
+    <context:component-scan base-package="com.sample.online.dao"/>
     <tx:annotation-driven/>
-    <import resource="controller-context.xml"/>
-    <import resource="dao-context.xml"/>
+    <import resource="persistence-config.xml"/>
 </beans>
