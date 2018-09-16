@@ -1,10 +1,12 @@
 package com.sample.online.controller;
 
 import com.sample.online.dao.CustomerDao;
+import com.sample.online.mapper.EntityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.sample.online.domain.Customer;
 
+import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -21,58 +23,35 @@ public class CustomerResourceService implements CustomerResource {
     @Autowired
     private CustomerDao customerDao;
 
+    private EntityMapper entityMapper = EntityMapper.INSTANCE;
 
-    public Response createCustomer(Customer customer, UriInfo uriInfo) {
-        com.sample.online.entity.Customer entity = transform(customer);
+
+    public Response customer(Customer customer, UriInfo uriInfo) {
+        com.sample.online.entity.Customer entity = entityMapper.pojoToEntity(customer);
         customerDao.create(entity);
         return Response.created(URI.create(uriInfo.getRequestUri().toString() + entity.getId())).build();
     }
 
-    private static com.sample.online.entity.Customer transform(Customer customer) {
-        com.sample.online.entity.Customer customerEntity = new com.sample.online.entity.Customer();
-        customerEntity.setFirstName(customer.getFirstName());
-        customerEntity.setLastName(customer.getLastName());
-        customerEntity.setCity(customer.getCity());
-        customerEntity.setCountry(customer.getCountry());
-        customerEntity.setState(customer.getState());
-        customerEntity.setStreet(customer.getStreet());
-        customerEntity.setId(customer.getId());
-        return customerEntity;
-    }
-
-    public Customer getCustomer(int id) {
+    public Customer customer(int id) {
         final com.sample.online.entity.Customer customer = customerDao.get(id);
         if (customer == null) throw new WebApplicationException(Response.Status.NOT_FOUND);
-        return transform(customer);
+        return entityMapper.entityToPojo(customer);
     }
 
-    private static Customer transform(com.sample.online.entity.Customer customerEntity) {
-        com.sample.online.domain.Customer customer = new Customer();
-        customer.setFirstName(customerEntity.getFirstName());
-        customer.setLastName(customerEntity.getLastName());
-        customer.setCity(customerEntity.getCity());
-        customer.setCountry(customerEntity.getCountry());
-        customer.setState(customerEntity.getState());
-        customer.setStreet(customerEntity.getStreet());
-        customer.setId(customerEntity.getId());
-        return customer;
-
-    }
-
-    public void updateCustomer(int id, Customer customer) {
+    public void customer(int id, Customer customer) {
 
         com.sample.online.entity.Customer customerEntity =  customerDao.get(id);
         if (customerEntity == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
         customer.setId(id);
-        customerDao.update(transform(customer));
+        customerDao.update(entityMapper.pojoToEntity(customer));
     }
 
-    public List<Customer> getAllCustomers() {
+    public List<Customer> customers() {
         List<com.sample.online.entity.Customer> customers = customerDao.findAll();
         List<Customer> customersToReturn = new ArrayList<>(customers.size());
-        customers.stream().forEach( customer -> customersToReturn.add(transform(customer)));
+        customers.stream().forEach( customer -> customersToReturn.add(entityMapper.entityToPojo(customer)));
         return customersToReturn;
     }
 }

@@ -8,13 +8,7 @@ import java.util.List;
 
 @Repository
 public class CustomerDaoImpl extends BaseHibernateDaoImpl<Customer> implements CustomerDao {
-
     public CustomerDaoImpl() {
         super(Customer.class);
-    }
-
-    @Override
-    public List<Customer> findAll() {
-        return find("from customer");
     }
 }

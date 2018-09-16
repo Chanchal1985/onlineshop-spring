@@ -33,7 +33,7 @@ public class BaseHibernateDaoImpl<T> extends HibernateDaoSupport implements Abst
     }
 
     @Override
-    public List<T> find(String queryString) {
-        return getHibernateTemplate().find(queryString);
+    public List<T> findAll() {
+        return getHibernateTemplate().loadAll(clazz);
     }
 }

@@ -15,19 +15,19 @@ public interface CustomerResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    Response createCustomer(Customer customer, @Context UriInfo uriInfo);
+    Response customer(Customer customer, @Context UriInfo uriInfo);
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    Customer getCustomer(@PathParam("id") int id);
+    Customer customer(@PathParam("id") int id);
 
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    void updateCustomer(@PathParam("id") int id, Customer customer);
+    void customer(@PathParam("id") int id, Customer customer);
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Customer> getAllCustomers();
+    public List<Customer> customers();
 }

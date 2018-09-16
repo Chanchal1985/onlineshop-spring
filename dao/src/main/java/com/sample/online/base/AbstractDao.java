@@ -8,6 +8,6 @@ public interface AbstractDao<T> {
     T get(int id);
     void update(T t);
     void delete(T t);
-    List<T> find(String queryString);
+    List<T> findAll();
 
 }
