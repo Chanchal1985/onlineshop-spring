@@ -1,21 +1,17 @@
 package com.sample.online.controller;
 
 import com.sample.online.dao.CustomerDao;
+import com.sample.online.domain.Customer;
 import com.sample.online.mapper.EntityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.sample.online.domain.Customer;
 
-import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class CustomerResourceService implements CustomerResource {

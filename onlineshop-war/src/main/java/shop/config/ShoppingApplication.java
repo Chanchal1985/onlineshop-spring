@@ -1,6 +1,7 @@
 package shop.config;
 
 import com.sample.online.controller.CustomerResource;
+import com.sample.online.controller.ProductResource;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -43,6 +44,7 @@ public class ShoppingApplication extends Application {
 
         Set<Object> singletons = new HashSet<>();
         singletons.add(springContext.getBean(CustomerResource.class));
+        singletons.add(springContext.getBean(ProductResource.class));
         return singletons;
     }
 }
