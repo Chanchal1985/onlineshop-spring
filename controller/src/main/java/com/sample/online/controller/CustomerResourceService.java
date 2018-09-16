@@ -18,17 +18,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class CustomerResourceService implements CustomerResource {
 
-    private static Map<Integer, Customer> customerDB = new ConcurrentHashMap<>();
-    private static AtomicInteger idCounter = new AtomicInteger();
-
     @Autowired
     private CustomerDao customerDao;
 
 
     public Response createCustomer(Customer customer, UriInfo uriInfo) {
-        //customer.setId(idCounter.incrementAndGet());
-        //customerDB.put(customer.getId(), customer);
-        System.out.println("Created Customer : " + customer.getId());
         com.sample.online.entity.Customer entity = transform(customer);
         customerDao.create(entity);
         return Response.created(URI.create(uriInfo.getRequestUri().toString() + entity.getId())).build();
@@ -42,23 +36,43 @@ public class CustomerResourceService implements CustomerResource {
         customerEntity.setCountry(customer.getCountry());
         customerEntity.setState(customer.getState());
         customerEntity.setStreet(customer.getStreet());
+        customerEntity.setId(customer.getId());
         return customerEntity;
     }
 
     public Customer getCustomer(int id) {
-        final Customer customer = customerDB.get(id);
+        final com.sample.online.entity.Customer customer = customerDao.get(id);
         if (customer == null) throw new WebApplicationException(Response.Status.NOT_FOUND);
+        return transform(customer);
+    }
+
+    private static Customer transform(com.sample.online.entity.Customer customerEntity) {
+        com.sample.online.domain.Customer customer = new Customer();
+        customer.setFirstName(customerEntity.getFirstName());
+        customer.setLastName(customerEntity.getLastName());
+        customer.setCity(customerEntity.getCity());
+        customer.setCountry(customerEntity.getCountry());
+        customer.setState(customerEntity.getState());
+        customer.setStreet(customerEntity.getStreet());
+        customer.setId(customerEntity.getId());
         return customer;
+
     }
 
     public void updateCustomer(int id, Customer customer) {
-        if (customerDB.get(id) == null) {
+
+        com.sample.online.entity.Customer customerEntity =  customerDao.get(id);
+        if (customerEntity == null) {
             throw new WebApplicationException(Response.Status.NOT_FOUND);
         }
-        customerDB.put(id, customer);
+        customer.setId(id);
+        customerDao.update(transform(customer));
     }
 
     public List<Customer> getAllCustomers() {
-        return new ArrayList<>(customerDB.values());
+        List<com.sample.online.entity.Customer> customers = customerDao.findAll();
+        List<Customer> customersToReturn = new ArrayList<>(customers.size());
+        customers.stream().forEach( customer -> customersToReturn.add(transform(customer)));
+        return customersToReturn;
     }
 }

@@ -1,6 +1,7 @@
 package com.sample.online.controller;
 
 import com.sample.online.domain.Customer;
+import org.jboss.resteasy.annotations.providers.jaxb.json.BadgerFish;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -13,12 +14,12 @@ import java.util.List;
 public interface CustomerResource {
 
     @POST
-    @Consumes(MediaType.APPLICATION_XML)
+    @Consumes(MediaType.APPLICATION_JSON)
     Response createCustomer(Customer customer, @Context UriInfo uriInfo);
 
     @GET
     @Path("{id}")
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_JSON)
     Customer getCustomer(@PathParam("id") int id);
 
     @PUT
